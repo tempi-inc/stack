@@ -81,6 +81,8 @@ export function forModalPresentationIOS({
   layouts: { screen },
 }: CardInterpolationProps): CardInterpolatedStyle {
   const topOffset = 10;
+
+  // TODO: update this for safe-area-context
   const statusBarHeight = getStatusBarHeight(screen.width > screen.height);
   const aspectRatio = screen.height / screen.width;
 

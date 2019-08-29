@@ -78,7 +78,7 @@ Array [
               },
               undefined,
               Object {
-                "marginTop": 64,
+                "marginTop": 44,
               },
             ]
           }
@@ -228,7 +228,7 @@ Array [
         style={
           Array [
             Object {
-              "height": 64,
+              "height": 44,
               "maxHeight": undefined,
               "minHeight": undefined,
               "opacity": 0.5,
@@ -240,7 +240,7 @@ Array [
           pointerEvents="none"
           style={
             Object {
-              "height": 20,
+              "height": 0,
             }
           }
         />
@@ -396,7 +396,7 @@ Array [
               },
               undefined,
               Object {
-                "marginTop": 64,
+                "marginTop": 44,
               },
             ]
           }
@@ -546,7 +546,7 @@ Array [
         style={
           Array [
             Object {
-              "height": 64,
+              "height": 44,
               "maxHeight": undefined,
               "minHeight": undefined,
               "opacity": 0.5,
@@ -558,7 +558,7 @@ Array [
           pointerEvents="none"
           style={
             Object {
-              "height": 20,
+              "height": 0,
             }
           }
         />

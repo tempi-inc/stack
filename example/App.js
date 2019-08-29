@@ -11,6 +11,7 @@ import {
   createStackNavigator,
 } from 'react-navigation-stack';
 import { List, Divider } from 'react-native-paper';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import FullScreen from './src/FullScreen';
 import SimpleStack from './src/SimpleStack';
@@ -155,7 +156,17 @@ const Root = createStackNavigator(
   }
 );
 
-export default createAppContainer(Root);
+const Navigation = createAppContainer(Root);
+
+/*
+ * Temporarily wrap navigation with SafeAreaProvider manually. This will later
+ * be handled by @react-navigation/native
+ */
+export default props => (
+  <SafeAreaProvider>
+    <Navigation {...props} />
+  </SafeAreaProvider>
+);
 
 // Uncomment this to test immediate transitions
 // import ImmediateTransition from './src/ImmediateTransition';

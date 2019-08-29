@@ -7,7 +7,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { getStatusBarHeight } from 'react-native-safe-area-view';
+import { SafeAreaContext } from 'react-native-safe-area-context';
 import HeaderBackButton from './HeaderBackButton';
 import HeaderBackground from './HeaderBackground';
 import memoize from '../../utils/memoize';
@@ -57,28 +57,31 @@ const warnIfHeaderStylesDefined = (styles: { [key: string]: any }) => {
   });
 };
 
+/*
+ * This does not include the status bar or notch height anymore! This is up to
+ * the user to take care of manually.
+ */
 export const getDefaultHeaderHeight = (layout: Layout) => {
   const isLandscape = layout.width > layout.height;
-
-  let headerHeight;
 
   if (Platform.OS === 'ios') {
     // @ts-ignore
     if (isLandscape && !Platform.isPad) {
-      headerHeight = 32;
+      return 32;
     } else {
-      headerHeight = 44;
+      return 44;
     }
   } else if (Platform.OS === 'android') {
-    headerHeight = 56;
+    return 56;
   } else {
-    headerHeight = 64;
+    return 64;
   }
-
-  return headerHeight + getStatusBarHeight(isLandscape);
 };
 
 export default class HeaderSegment extends React.Component<Props, State> {
+  static contextType = SafeAreaContext;
+  context!: React.ContextType<typeof SafeAreaContext>;
+
   state: State = {};
 
   private handleTitleLayout = (e: LayoutChangeEvent) => {
@@ -134,6 +137,8 @@ export default class HeaderSegment extends React.Component<Props, State> {
   );
 
   render() {
+    const topInset = this.context ? this.context.top : 0;
+
     const {
       scene,
       layout,
@@ -145,7 +150,7 @@ export default class HeaderSegment extends React.Component<Props, State> {
         ? (props: HeaderBackButtonProps) => <HeaderBackButton {...props} />
         : undefined,
       // @ts-ignore
-      headerStatusBarHeight = getStatusBarHeight(layout.width > layout.height),
+      headerStatusBarHeight = topInset,
       headerTransparent,
       headerTintColor,
       headerLeftTintColor,
@@ -186,7 +191,7 @@ export default class HeaderSegment extends React.Component<Props, State> {
     );
 
     const {
-      height = getDefaultHeaderHeight(layout),
+      height = getDefaultHeaderHeight(layout) + headerStatusBarHeight,
       minHeight,
       maxHeight,
       backgroundColor,
